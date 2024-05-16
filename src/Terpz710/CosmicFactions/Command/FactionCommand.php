@@ -10,17 +10,20 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 
 use Terpz710\CosmicFactions\FactionManager;
+use Terpz710\CosmicFactions\Factions;
 
 class FactionCommand extends Command {
 
+    private $plugin;
     private $factionManager;
     private $pos1 = [];
     private $pos2 = [];
 
-    public function __construct(FactionManager $factionManager) {
+    public function __construct(Factions $plugin, FactionManager $factionManager) {
         parent::__construct("f", "Factions");
         $this->setPermission("factions.cmd");
         $this->factionManager = $factionManager;
+        $this->plugin = $plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
@@ -364,7 +367,7 @@ class FactionCommand extends Command {
 
         $factionName = $this->factionManager->getFaction($player);
         if ($factionName !== null && $this->factionManager->isFactionLeader($player, $factionName)) {
-            $invitee = $this->getServer()->getPlayerExact($inviteeName);
+            $invitee = $this->plugin->getServer()->getPlayerExact($inviteeName);
             if ($invitee !== null) {
                 $success = $this->factionManager->sendInvitation($factionName, $invitee);
                 if ($success) {
