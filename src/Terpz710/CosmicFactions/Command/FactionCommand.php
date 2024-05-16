@@ -219,7 +219,7 @@ class FactionCommand extends Command {
         $count = 0;
         foreach ($factions as $name => $faction) {
             $count++;
-            $player->sendMessage("$count. $name - Power: {$faction['power']}");
+            $player->sendMessage("$count. " . $faction['name'] . " - Power: {$faction['power']}");
             if ($count >= 10) {
                 break;
             }
@@ -237,7 +237,7 @@ class FactionCommand extends Command {
         $count = 0;
         foreach ($factions as $name => $faction) {
             $count++;
-            $player->sendMessage("$count. $name - Balance: {$faction['balance']}");
+            $player->sendMessage("$count. " . $faction['name'] . " - Balance: {$faction['balance']}");
             if ($count >= 10) {
                 break;
             }
