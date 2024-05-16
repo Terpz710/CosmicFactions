@@ -30,7 +30,7 @@ class FactionCommand extends Command {
         }
 
         if (empty($args)) {
-            $sender->sendMessage("Usage: /f <subcommand>");
+            $sender->sendMessage("Usage: /f help");
             return false;
         }
 
@@ -82,7 +82,7 @@ class FactionCommand extends Command {
                 break;
 
             default:
-                $sender->sendMessage("§c{$subCommand}§f doesn’t exist... do §e/f help§f to get started!");
+                $sender->sendMessage("The subcommand §c{$subCommand}§f doesnt exist... do §e/f help§f to get started!");
                 break;
         }
         return true;
