@@ -97,6 +97,15 @@ class FactionManager {
         return isset($this->factions[$name]);
     }
 
+    public function setFactionData(string $name, array $data): bool {
+        if (isset($this->factions[$name])) {
+            $this->factions[$name] = $data;
+            $this->saveFactions();
+            return true;
+        }
+        return false;
+    }
+
     public function disbandFaction(string $name): bool {
         if (isset($this->factions[$name])) {
             unset($this->factions[$name]);
