@@ -32,7 +32,7 @@ class FactionCommand extends Command {
         }
 
         if (empty($args)) {
-            $sender->sendMessage("Usage: /f <subcommand> [args]");
+            $sender->sendMessage("Usage: /f <subcommand>");
             return false;
         }
 
