@@ -45,6 +45,14 @@ class FactionCommand extends Command {
                 $this->handleLeaveCommand($sender);
                 break;
 
+            case 'invite':
+                $this->handleInviteCommand($sender, $args);
+                break;
+
+            case 'accept':
+                $this->handleAcceptCommand($sender);
+                break;
+
             case 'disband':
                 $this->handleDisbandCommand($sender, $args);
                 break;
@@ -100,6 +108,8 @@ class FactionCommand extends Command {
         $player->sendMessage("/f status - Show the your faction status");
         $player->sendMessage("/f seestatus - Shows the selected faction status");
         $player->sendMessage("/f claim pos1|pos2 - Claim certain amount of land");
+        $player->sendMessage("/f invite - Invite a player to your faction");
+        $player->sendMessage("/f accept - Accept any incoming invitations");
         $player->sendMessage("-----------------------------------------------------------");
         
     }
