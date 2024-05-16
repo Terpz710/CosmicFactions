@@ -17,7 +17,7 @@ class Factions extends PluginBase {
         @mkdir($this->getDataFolder());
         $this->factionManager = new FactionManager($this);
 
-        $this->getServer()->getCommandMap()->register("Factions", new FactionCommand($this, $this->factionManager));
+        $this->getServer()->getCommandMap()->register("Factions", new FactionCommand($this->factionManager));
     }
 
     public function getFactionManager(): FactionManager {
