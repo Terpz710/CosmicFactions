@@ -100,7 +100,7 @@ class FactionCommand extends Command {
     }
 
     private function handleHelpCommand(Player $player, array $args): void {
-        $player->sendMessage("-----------------§e§lFactions Commands§r§f-----------------");
+        $player->sendMessage("-------------------§e§lFactions Commands§r§f-------------------");
         $player->sendMessage("/f create <name> - Create a new faction");
         $player->sendMessage("/f leave - Leave your current faction");
         $player->sendMessage("/f disband - Disband your faction");
@@ -113,7 +113,7 @@ class FactionCommand extends Command {
         $player->sendMessage("/f claim pos1|pos2 - Claim certain amount of land");
         $player->sendMessage("/f invite - Invite a player to your faction");
         $player->sendMessage("/f accept - Accept any incoming invitations");
-        $player->sendMessage("-----------------------------------------------------------");
+        $player->sendMessage("--------------------------------------------------------------");
         
     }
 
