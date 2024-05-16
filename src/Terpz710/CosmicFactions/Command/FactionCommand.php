@@ -341,8 +341,6 @@ class FactionCommand extends Command {
             }
             unset($this->pos1[$player->getName()]);
             unset($this->pos2[$player->getName()]);
+        }
     }
-}
-
-
 }
