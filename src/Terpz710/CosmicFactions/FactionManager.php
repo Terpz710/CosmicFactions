@@ -24,13 +24,13 @@ class FactionManager {
         }
 
         $this->factions[$name] = [
+            'name' => $name,
             'leader' => $player->getName(),
             'members' => [$player->getName()],
             'claims' => [],
             'power' => 0,
             'balance' => 0.0
         ];
-
         $this->saveFactions();
         return true;
     }
