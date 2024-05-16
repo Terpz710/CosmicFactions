@@ -9,6 +9,7 @@ use pocketmine\player\Player;
 class FactionManager {
 
     private $factions = [];
+    private $pendingInvitations = [];
     private $plugin;
     private $dataFile;
 
@@ -121,6 +122,25 @@ class FactionManager {
             $this->updateFactionPower($factionName);
             $this->saveFactions();
         }
+    }
+
+    public function sendInvitation(string $factionName, Player $invitee): bool {
+        $inviteeName = $invitee->getName();
+        if (!isset($this->pendingInvitations[$inviteeName])) {
+            $this->pendingInvitations[$inviteeName] = $factionName;
+            return true;
+        }
+        return false;
+    }
+
+    public function getPendingInvitation(Player $player): ?string {
+        $playerName = $player->getName();
+        if (isset($this->pendingInvitations[$playerName])) {
+            $factionName = $this->pendingInvitations[$playerName];
+            unset($this->pendingInvitations[$playerName]);
+            return $factionName;
+        }
+        return null;
     }
 
     // Power management
