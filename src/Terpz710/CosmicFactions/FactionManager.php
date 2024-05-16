@@ -93,6 +93,10 @@ class FactionManager {
         return $this->factions;
     }
 
+    public function factionExists(string $name): bool {
+        return isset($this->factions[$name]);
+    }
+
     public function disbandFaction(string $name): bool {
         if (isset($this->factions[$name])) {
             unset($this->factions[$name]);
