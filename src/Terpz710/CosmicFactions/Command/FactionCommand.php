@@ -330,7 +330,7 @@ class FactionCommand extends Command {
             $x2 = max($pos1->getX(), $pos2->getX());
             $z1 = min($pos1->getZ(), $pos2->getZ());
             $z2 = max($pos1->getZ(), $pos2->getZ());
-            $claimedArea = ($x2 - $x1 + 1) * ($z2 - $z1 + 1);
+            $claimedArea = (int) (($x2 - $x1 + 1) * ($z2 - $z1 + 1));
 
             $factionName = $this->factionManager->getFaction($player);
             if ($factionName !== null) {
