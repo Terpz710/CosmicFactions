@@ -116,11 +116,17 @@ class FactionManager {
         return false;
     }
 
-    public function claimLand(string $factionName, int $claimedArea): void {
+    public function claimLand(string $factionName, int $claimedArea, Player $player): void {
         if (isset($this->factions[$factionName])) {
-            $this->factions[$factionName]['claims'][] = $claimedArea;
-            $this->updateFactionPower($factionName);
-            $this->saveFactions();
+            $pricePerBlock = 1;
+            $totalPrice = $claimedArea * $pricePerBlock;
+        
+            if ($this->reduceFactionBalance($factionName, $totalPrice)) {
+                $this->factions[$factionName]['claims'][] = $claimedArea;
+                $this->saveFactions();
+            } else {
+                $player->sendMessage("You don't have enough money to claim this land.");
+            }
         }
     }
 
