@@ -347,8 +347,12 @@ class FactionCommand extends Command {
 
             $factionName = $this->factionManager->getFaction($player);
             if ($factionName !== null) {
-                $this->factionManager->claimLand($factionName, $claimedArea);
-                $player->sendMessage("Claimed area: $claimedArea blocks. Faction land data updated.");
+                $success = $this->factionManager->claimLand($factionName, $claimedArea);
+                if ($success) {
+                    $player->sendMessage("Claimed area: $claimedArea blocks. Faction balance deducted.");
+                } else {
+                    $player->sendMessage("You don't have enough money to claim this land.");
+                }
             } else {
                 $player->sendMessage("You are not in a faction.");
             }
