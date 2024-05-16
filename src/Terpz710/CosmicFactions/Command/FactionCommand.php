@@ -343,4 +343,45 @@ class FactionCommand extends Command {
             unset($this->pos2[$player->getName()]);
         }
     }
+
+    private function handleInviteCommand(Player $player, array $args): void {
+        if (count($args) !== 1) {
+            $player->sendMessage("Usage: /f invite <player>");
+            return;
+        }
+
+        $inviteeName = $args[0];
+
+        $factionName = $this->factionManager->getFaction($player);
+        if ($factionName !== null && $this->factionManager->isFactionLeader($player, $factionName)) {
+            $invitee = $this->getServer()->getPlayerExact($inviteeName);
+            if ($invitee !== null) {
+                $success = $this->factionManager->sendInvitation($factionName, $invitee);
+                if ($success) {
+                    $player->sendMessage("Invitation sent to $inviteeName.");
+                    $invitee->sendMessage("You have been invited to join $factionName. Use '/f accept' to accept.");
+                } else {
+                    $player->sendMessage("$inviteeName is already in a faction.");
+                }
+            } else {
+                $player->sendMessage("$inviteeName is not online.");
+            }
+        } else {
+            $player->sendMessage("You are not in a faction or you are not the leader.");
+        }
+    }
+
+    private function handleAcceptCommand(Player $player): void {
+        $factionName = $this->factionManager->getPendingInvitation($player);
+        if ($factionName !== null) {
+            $success = $this->factionManager->joinFaction($player, $factionName);
+            if ($success) {
+                $player->sendMessage("You have joined $factionName.");
+            } else {
+                $player->sendMessage("An error occurred while joining $factionName.");
+            }
+        } else {
+            $player->sendMessage("You don't have any pending invitations.");
+        }
+    }
 }
