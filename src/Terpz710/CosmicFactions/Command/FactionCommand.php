@@ -321,6 +321,28 @@ class FactionCommand extends Command {
                 $player->sendMessage("Usage: /f claim <pos1|pos2>");
                 return;
         }
-        $player->sendMessage("Claim set successfully.");
+
+        if (isset($this->pos1[$player->getName()]) && isset($this->pos2[$player->getName()])) {
+            $pos1 = $this->pos1[$player->getName()];
+            $pos2 = $this->pos2[$player->getName()];
+
+            $x1 = min($pos1->getX(), $pos2->getX());
+            $x2 = max($pos1->getX(), $pos2->getX());
+            $z1 = min($pos1->getZ(), $pos2->getZ());
+            $z2 = max($pos1->getZ(), $pos2->getZ());
+            $claimedArea = ($x2 - $x1 + 1) * ($z2 - $z1 + 1);
+
+            $factionName = $this->factionManager->getFaction($player);
+            if ($factionName !== null) {
+                $this->factionManager->claimLand($factionName, $claimedArea);
+                $player->sendMessage("Claimed area: $claimedArea blocks. Faction land data updated.");
+            } else {
+                $player->sendMessage("You are not in a faction.");
+            }
+            unset($this->pos1[$player->getName()]);
+            unset($this->pos2[$player->getName()]);
     }
+}
+
+
 }
