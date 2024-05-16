@@ -14,6 +14,8 @@ use Terpz710\CosmicFactions\FactionManager;
 class FactionCommand extends Command {
 
     private $factionManager;
+    private $pos1 = [];
+    private $pos2 = [];
 
     public function __construct(FactionManager $factionManager) {
         parent::__construct("f", "Factions");
@@ -49,6 +51,10 @@ class FactionCommand extends Command {
 
             case 'members':
                 $this->handleMembersCommand($sender, $args);
+                break;
+
+            case 'claim':
+                $this->handleClaimCommand($sender, $args);
                 break;
 
             case 'promote':
@@ -93,6 +99,7 @@ class FactionCommand extends Command {
         $player->sendMessage("/f moneytop - Show the top factions by money balance");
         $player->sendMessage("/f status - Show the your faction status");
         $player->sendMessage("/f seestatus - Shows the selected faction status");
+        $player->sendMessage("/f claim pos1|pos2 - Claim certain amount of land");
         $player->sendMessage("-----------------------------------------------------------");
         
     }
@@ -291,5 +298,36 @@ class FactionCommand extends Command {
         }
         $player->sendMessage("Power: $power");
         $player->sendMessage("Balance: $balance");
+    }
+
+    private function handleClaimCommand(Player $player, array $args): void {
+        if (empty($args)) {
+            $player->sendMessage("Usage: /f claim <pos1|pos2>");
+            return;
+        }
+
+        $claimType = array_shift($args);
+
+        switch ($claimType) {
+            case 'pos1':
+                $this->pos1[$player->getName()] = $player->getPosition();
+                $player->sendMessage("Position 1 set for claiming.");
+                break;
+            case 'pos2':
+                $this->pos2[$player->getName()] = $player->getPosition();
+                $player->sendMessage("Position 2 set for claiming.");
+                break;
+            default:
+                $player->sendMessage("Usage: /f claim <pos1|pos2>");
+                return;
+        }
+
+        $factionName = $this->factionManager->getFaction($player);
+        if ($factionName !== null) {
+            $factionData = $this->factionManager->getFactions()[$factionName];
+            $factionData['pos1'] = $this->pos1[$player->getName()] ?? null;
+            $factionData['pos2'] = $this->pos2[$player->getName()] ?? null;
+            $this->factionManager->setFactionData($factionName, $factionData);
+        }
     }
 }
