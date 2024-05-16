@@ -9,19 +9,15 @@ use pocketmine\command\CommandSender;
 
 use pocketmine\player\Player;
 
-use Terpz710\CosmicFactions\Factions;
 use Terpz710\CosmicFactions\FactionManager;
 
 class FactionCommand extends Command {
 
-    private $plugin;
     private $factionManager;
 
-    public function __construct(Factions $plugin, FactionManager $factionManager) {
+    public function __construct(FactionManager $factionManager) {
         parent::__construct("f", "Factions");
         $this->setPermission("factions.cmd");
-
-        $this->plugin = $plugin;
         $this->factionManager = $factionManager;
     }
 
