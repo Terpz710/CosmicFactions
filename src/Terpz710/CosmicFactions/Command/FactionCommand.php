@@ -314,7 +314,7 @@ class FactionCommand extends Command {
     }
 
     private function handleClaimCommand(Player $player, array $args): void {
-            if (empty($args)) {
+        if (empty($args)) {
             $player->sendMessage("Usage: /f claim <pos1|pos2>");
             return;
         }
@@ -347,17 +347,40 @@ class FactionCommand extends Command {
 
             $factionName = $this->factionManager->getFaction($player);
             if ($factionName !== null) {
-                $success = $this->factionManager->claimLand($factionName, $claimedArea);
-                if ($success) {
-                    $player->sendMessage("Claimed area: $claimedArea blocks. Faction balance deducted.");
-                } else {
-                    $player->sendMessage("You don't have enough money to claim this land.");
-                }
+                $this->factionManager->claimLand($factionName, $claimedArea);
+                $player->sendMessage("Claimed area: $claimedArea blocks. Faction land data updated.");
             } else {
                 $player->sendMessage("You are not in a faction.");
             }
             unset($this->pos1[$player->getName()]);
             unset($this->pos2[$player->getName()]);
+        }
+    }
+
+    private function handleInviteCommand(Player $player, array $args): void {
+        if (count($args) !== 1) {
+            $player->sendMessage("Usage: /f invite <player>");
+            return;
+        }
+
+        $inviteeName = $args[0];
+
+        $factionName = $this->factionManager->getFaction($player);
+        if ($factionName !== null && $this->factionManager->isFactionLeader($player, $factionName)) {
+            $invitee = $this->plugin->getServer()->getPlayerExact($inviteeName);
+            if ($invitee !== null) {
+                $success = $this->factionManager->sendInvitation($factionName, $invitee);
+                if ($success) {
+                    $player->sendMessage("Invitation sent to $inviteeName.");
+                    $invitee->sendMessage("You have been invited to join $factionName. Use '/f accept' to accept.");
+                } else {
+                    $player->sendMessage("$inviteeName is already in a faction.");
+                }
+            } else {
+                $player->sendMessage("$inviteeName is not online.");
+            }
+        } else {
+            $player->sendMessage("You are not in a faction or you are not the leader.");
         }
     }
 
