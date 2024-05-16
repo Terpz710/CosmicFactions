@@ -67,6 +67,14 @@ class FactionCommand extends Command {
                 $this->handleHelpCommand($sender, $args);
                 break;
 
+            case 'status':
+                $this->handleStatusCommand($sender, $args);
+                break;
+
+            case 'seestatus':
+                $this->handleSeeStatusCommand($sender, $args);
+                break;
+
             default:
                 $sender->sendMessage("§c{$subCommand}§f doesn’t exist... do §e/f help§f to get started!");
                 break;
@@ -83,6 +91,8 @@ class FactionCommand extends Command {
         $player->sendMessage("/f promote <player> - Promote a member to leader (leader only)");
         $player->sendMessage("/f powertop - Show the top factions by power");
         $player->sendMessage("/f moneytop - Show the top factions by money balance");
+        $player->sendMessage("/f status - Show the your faction status");
+        $player->sendMessage("/f seestatus - Shows the selected faction status");
         $player->sendMessage("-----------------------------------------------------------");
         
     }
@@ -232,5 +242,54 @@ class FactionCommand extends Command {
                 break;
             }
         }
+    }
+
+    private function handleStatusCommand(Player $player, array $args): void {
+        $factionName = $this->factionManager->getFaction($player);
+
+        if ($factionName === null) {
+            $player->sendMessage("You are not in a faction.");
+            return;
+        }
+
+        $leader = $this->factionManager->getFactionLeader($factionName);
+        $members = $this->factionManager->getFactionMembers($factionName);
+        $power = $this->factionManager->getFactionPower($factionName);
+        $balance = $this->factionManager->getFactionBalance($factionName);
+
+        $position = ($leader === $player->getName()) ? 'Leader' : 'Member';
+
+        $player->sendMessage("Faction: $factionName");
+        $player->sendMessage("Position: $position");
+        $player->sendMessage("Power: $power");
+        $player->sendMessage("Balance: $balance");
+    }
+
+    private function handleSeeStatusCommand(Player $player, array $args): void {
+        if (count($args) !== 1) {
+            $player->sendMessage("Usage: /f seestatus <factionName>");
+            return;
+        }
+
+        $factionName = $args[0];
+
+        if (!$this->factionManager->factionExists($factionName)) {
+            $player->sendMessage("Faction '$factionName' does not exist.");
+            return;
+        }
+
+        $leader = $this->factionManager->getFactionLeader($factionName);
+        $members = $this->factionManager->getFactionMembers($factionName);
+        $power = $this->factionManager->getFactionPower($factionName);
+        $balance = $this->factionManager->getFactionBalance($factionName);
+
+        $player->sendMessage("Faction: $factionName");
+        $player->sendMessage("Leader: $leader");
+        $player->sendMessage("Members:");
+        foreach ($members as $member) {
+            $player->sendMessage("- $member");
+        }
+        $player->sendMessage("Power: $power");
+        $player->sendMessage("Balance: $balance");
     }
 }
