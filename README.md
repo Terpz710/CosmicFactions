@@ -1,5 +1,8 @@
 # Cosmic Factions
 
+**NOT READY FOR BIG PRODUCTION**
+**UNDER DEVELOPMENT**
+
 A simple factions plugin to add in to your minecraft be pocketmine server. With this plugin players can now create and battle against other factions! Bringing back the real factions!
 
 # Features
