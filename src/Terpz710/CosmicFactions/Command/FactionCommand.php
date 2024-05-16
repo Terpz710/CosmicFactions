@@ -14,6 +14,8 @@ use Terpz710\CosmicFactions\FactionManager;
 class FactionCommand extends Command {
 
     private $factionManager;
+    private $pos1 = [];
+    private $pos2 = [];
 
     public function __construct(FactionManager $factionManager) {
         parent::__construct("f", "Factions");
