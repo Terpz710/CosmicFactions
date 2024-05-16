@@ -321,13 +321,6 @@ class FactionCommand extends Command {
                 $player->sendMessage("Usage: /f claim <pos1|pos2>");
                 return;
         }
-
-        $factionName = $this->factionManager->getFaction($player);
-        if ($factionName !== null) {
-            $factionData = $this->factionManager->getFactions()[$factionName];
-            $factionData['pos1'] = $this->pos1[$player->getName()] ?? null;
-            $factionData['pos2'] = $this->pos2[$player->getName()] ?? null;
-            $this->factionManager->setFactionData($factionName, $factionData);
-        }
+        $player->sendMessage("Claim set successfully.");
     }
 }
