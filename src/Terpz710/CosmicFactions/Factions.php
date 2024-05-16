@@ -8,6 +8,7 @@ use pocketmine\plugin\PluginBase;
 
 use Terpz710\CosmicFactions\FactionManager;
 use Terpz710\CosmicFactions\Command\FactionCommand;
+use Terpz710\CosmicFactions\Events\FactionEventListener;
 
 class Factions extends PluginBase {
 
@@ -18,6 +19,8 @@ class Factions extends PluginBase {
         $this->factionManager = new FactionManager($this);
 
         $this->getServer()->getCommandMap()->register("Factions", new FactionCommand($this, $this->factionManager));
+
+        $this->getServer()->getPluginManager()->registerEvents(new FactionEventListener($this->factionManager), $this);
     }
 
     public function getFactionManager(): FactionManager {
