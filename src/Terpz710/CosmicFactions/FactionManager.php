@@ -181,17 +181,18 @@ class FactionManager {
         return false;
     }
 
-    private function updateFactionPower(string $factionName): void {
-        if (isset($this->factions[$factionName])) {
-            $claimedAreas = $this->factions[$factionName]['claims'] ?? [];
-            $powerPerBlock = 10;
-            $totalPower = 0;
-            foreach ($claimedAreas as $claimedArea) {
-                $totalPower += $claimedArea * $powerPerBlock;
-            }
-            $this->factions[$factionName]['power'] = $totalPower;
-        }
-    }
+    //Ill prob never use this again...
+    //private function updateFactionPower(string $factionName): void {
+        //if (isset($this->factions[$factionName])) {
+            //$claimedAreas = $this->factions[$factionName]['claims'] ?? [];
+            //$powerPerBlock = 10;
+            //$totalPower = 0;
+            //foreach ($claimedAreas as $claimedArea) {
+                //$totalPower += $claimedArea * $powerPerBlock;
+            //}
+            //$this->factions[$factionName]['power'] = $totalPower;
+        //}
+    //}
 
     // Balance management
     public function getFactionBalance(string $name): float {
