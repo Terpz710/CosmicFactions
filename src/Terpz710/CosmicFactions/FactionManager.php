@@ -115,6 +115,14 @@ class FactionManager {
         return false;
     }
 
+    public function claimLand(string $factionName, int $claimedArea): void {
+        if (isset($this->factions[$factionName])) {
+            $this->factions[$factionName]['claims'][] = $claimedArea;
+            $this->updateFactionPower($factionName);
+            $this->saveFactions();
+        }
+    }
+
     // Power management
     public function getFactionPower(string $name): int {
         return $this->factions[$name]['power'] ?? 0;
@@ -145,6 +153,18 @@ class FactionManager {
             return true;
         }
         return false;
+    }
+
+    private function updateFactionPower(string $factionName): void {
+        if (isset($this->factions[$factionName])) {
+            $claimedAreas = $this->factions[$factionName]['claims'] ?? [];
+            $powerPerBlock = 10;
+            $totalPower = 0;
+            foreach ($claimedAreas as $claimedArea) {
+                $totalPower += $claimedArea * $powerPerBlock;
+            }
+            $this->factions[$factionName]['power'] = $totalPower;
+        }
     }
 
     // Balance management
