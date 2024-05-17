@@ -60,7 +60,7 @@ class FactionEventListener implements Listener {
         if ($victimFaction !== null) {
             $victimPowerLoss = 1; //default
             $this->factionManager->reduceFactionPower($victimFaction, $victimPowerLoss);
-            $victim->sendMessage("You have lost $victimPowerLoss power!");
+            $victim->sendMessage("Your faction have lost $victimPowerLoss power... Stay safe!");
         }
     }
 }
