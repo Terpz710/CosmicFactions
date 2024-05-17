@@ -18,6 +18,7 @@ class FactionCommand extends Command {
     private $factionManager;
     private $pos1 = [];
     private $pos2 = [];
+    private $chatToggle = [];
 
     public function __construct(Factions $plugin, FactionManager $factionManager) {
         parent::__construct("f", "Factions");
