@@ -38,6 +38,9 @@ class FactionEventListener implements Listener {
 
             $this->factionManager->reduceFactionPower($victimFaction, $victimPower);
             $this->factionManager->addFactionPower($killerFaction, $victimPower);
+
+            $victim->sendMessage("You have lost $victimPower power!");
+            $killer->sendMessage("You have gained $victimPower power!");
         }
     }
 }
