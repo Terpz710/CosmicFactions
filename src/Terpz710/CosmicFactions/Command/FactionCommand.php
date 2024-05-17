@@ -412,9 +412,11 @@ class FactionCommand extends Command {
         $playerName = $player->getName();
         if (isset($this->chatToggle[$playerName])) {
             unset($this->chatToggle[$playerName]);
+            $this->sendMessageToFaction($player);
             $player->sendMessage("Faction chat disabled!");
         } else {
             $this->chatToggle[$playerName] = true;
+            $this->sendMessageToFaction($player);
             $player->sendMessage("Faction chat enabled!");
         }
     }
