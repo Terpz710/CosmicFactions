@@ -92,6 +92,10 @@ class FactionCommand extends Command {
                 $this->handleSeeStatusCommand($sender, $args);
                 break;
 
+            case 'chat':
+                $this->handleChatCommand($sender);
+                break;
+
             default:
                 $sender->sendMessage("The subcommand §c{$subCommand}§f doesnt exist... do §e/f help§f to get started!");
                 break;
@@ -113,6 +117,7 @@ class FactionCommand extends Command {
         $player->sendMessage("/f claim pos1|pos2 - Claim certain amount of land");
         $player->sendMessage("/f invite - Invite a player to your faction");
         $player->sendMessage("/f accept - Accept any incoming invitations");
+        $player->sendMessage("/f chat - Only faction members can see messages sent in chat");
         $player->sendMessage("--------------------------------------------------------------");
         
     }
@@ -399,6 +404,30 @@ class FactionCommand extends Command {
             }
         } else {
             $player->sendMessage("You don't have any pending invitations.");
+        }
+    }
+
+    private function handleChatCommand(Player $player): void {
+        $playerName = $player->getName();
+        if (isset($this->chatToggle[$playerName])) {
+            unset($this->chatToggle[$playerName]);
+            $player->sendMessage("Faction chat disabled!");
+        } else {
+            $this->chatToggle[$playerName] = true;
+            $player->sendMessage("Faction chat enabled!");
+        }
+    }
+
+    private function sendMessageToFaction(Player $sender, string $message): void {
+        $factionName = $this->factionManager->getFaction($sender);
+        if ($factionName !== null) {
+            foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
+                if ($this->factionManager->getFaction($player) === $factionName || isset($this->chatToggle[$player->getName()])) {
+                    $player->sendMessage("[Faction] {$sender->getName()}: $message");
+                }
+            }
+        } else {
+            $sender->sendMessage("You are not in a faction.");
         }
     }
 }
