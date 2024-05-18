@@ -13,10 +13,28 @@ A simple factions plugin to add in to your minecraft be pocketmine server. With 
 - [ ] Faction Chat
 - [ ] Faction Home
 - [ ] War/Outpost
+- [ ] Claims
+- [ ] Top Factions(Power and Money)
+- [ ] Floating text for Top Money and Power
 
 # Command
-
-TODO
+```
+/f help - See the availible sub commands
+/f create - Create a faction
+/f leave - Leave the faction
+/f disband - Disband(break up) the faction
+/f status - See your factions stats
+/f seestatus - See other factions status
+/f members - Get a list of the members in your clan
+/f promote - Promate a member to a leader(Leader Only!)
+/f invite - Invite a player to your faction
+/f accept - Accept any incomming faction invitation
+/f chat - When active all chats are sent into a faction chat(Regular chat but only your faction members can see)
+/f powertop - Show the top 10 factions with the highest power
+/f moneytop - Show the top 10 faction with the highest money
+/f claim pos1|pos2 - Claim an area for your faction base
+```
+**Not finished!**
 
 # Report a bug
 
